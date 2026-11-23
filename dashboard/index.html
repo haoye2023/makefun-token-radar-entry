@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Launch Radar — pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="sweep" aria-hidden="true"></div>
+  <div class="masthead-text">
+    <h1>TOKEN LAUNCH RADAR</h1>
+    <p class="tagline">Every protocol that records no token yet, ranked by what its launch would be worth — and how to farm it before it happens.</p>
+    <p class="meta" id="meta-line">Loading the board…</p>
+  </div>
+  <div class="stats" id="stats"></div>
+</header>
+
+<section class="controls" aria-label="Board controls">
+  <label class="ctl grow">Search
+    <input id="q" type="search" placeholder="protocol name or slug…" autocomplete="off">
+  </label>
+  <label class="ctl">Category
+    <select id="f-cat"><option value="">All categories</option></select>
+  </label>
+  <label class="ctl">Chain
+    <select id="f-chain"><option value="">All chains</option></select>
+  </label>
+  <label class="ctl check">
+    <input id="f-wl" type="checkbox"> Watchlist only
+  </label>
+  <span class="count" id="count"></span>
+</section>
+
+<main>
+  <table id="board">
+    <thead>
+      <tr>
+        <th data-k="0" class="num sortable">Rank</th>
+        <th data-k="2" class="sortable">Protocol</th>
+        <th data-k="3" class="sortable">Category</th>
+        <th data-k="5" class="num sortable">TVL</th>
+        <th data-k="6" class="num sortable">7d %</th>
+        <th data-k="7" class="num sortable">Age</th>
+        <th data-k="10" class="num sortable">Cat. multiple</th>
+        <th data-k="8" class="num sortable">Implied value</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p class="hint">Click a column header to sort. Click any row for its detail view: the model's factor breakdown and its farm plan.</p>
+
+  <section id="detail" class="detail" hidden></section>
+
+  <section class="model-note">
+    <h2>How the model works</h2>
+    <p>Implied value is <strong>TVL × category multiple × momentum × maturity × chain breadth</strong>, computed for every
+    protocol from the snapshot's own figures — no name is scored by hand.</p>
+    <ul>
+      <li><strong>Category multiple</strong> — the median market-cap/TVL ratio of protocols in the same category whose token
+      already trades, measured on this snapshot. Categories with fewer than three priced tokens use the global median,
+      <span id="global-mult"></span>.</li>
+      <li><strong>Momentum</strong> — the 7-day TVL change, clamped to −40%…+60% and damped hardest of the four factors:
+      one week of flow is the noisiest figure in the snapshot.</li>
+      <li><strong>Maturity</strong> — years tracked with no token recorded: the factor rises from 0.75 to 1.25 over four years.
+      The longer a large protocol has run tokenless, the more its launch is worth when it comes.</li>
+      <li><strong>Chain breadth</strong> — +3% per extra chain beyond the first, capped at +24%.</li>
+    </ul>
+    <p>The board holds pre-token protocols only. Wrapped, staked, bridged and versioned products of protocols that already
+    have a token are excluded, as are exchange house products — they are not launches. Every protocol on the snapshot's
+    watchlist is on the board; the watchlist is the floor, not the ceiling, so the board also carries the smaller early
+    protocols a radar exists to find. A protocol here <em>records no token</em> in the snapshot; that is DefiLlama's record,
+    not proof none exists.</p>
+    <h3>Category multiples measured on this snapshot</h3>
+    <div id="mult-table" class="mult-table"></div>
+  </section>
+</main>
+
+<footer>
+  <p>Board computed from the sealed DefiLlama snapshot. Implied values are this radar's own model output — a claim about
+  what a launch would be worth if the record stayed as it is, not a prediction that a token will be issued.</p>
+</footer>
+
+<script src="zdata.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
